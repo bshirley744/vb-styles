@@ -61,13 +61,14 @@ for (const category of portfolio.categories) {
 
 await mkdir("public/images/portfolio", { recursive: true });
 
-// Never clobber a real photo: pass --force only if you mean it.
-const force = process.argv.includes("--force");
-
+// This script only ever FILLS IN missing images. It has no overwrite mode on
+// purpose: hero.jpg and any real photo live in these same slots, and a flag
+// that quietly replaces them with a grey gradient is a trap. To regenerate a
+// placeholder, delete the file first.
 let made = 0;
 let kept = 0;
 for (const [i, job] of jobs.entries()) {
-  if (!force && existsSync(job.path)) {
+  if (existsSync(job.path)) {
     kept += 1;
     continue;
   }

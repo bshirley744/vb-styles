@@ -53,7 +53,7 @@ The current hero is a stock photo from Unsplash (by Huy Nguyen), used as a
 stand-in. Everything else in `public/images/` is a generated grey placeholder.
 Replace them all before launch.
 
-`npm run placeholders` regenerates any placeholder that is *missing* — it will
-not overwrite a real photo. Pass `--force` only if you genuinely want to wipe
-what's there. Once every image is real, delete `scripts/gen-placeholders.mjs`
-and the `sharp` devDependency.
+`npm run placeholders` only fills in images that are **missing** — it can never
+overwrite a photo that already exists, so it is always safe to run. To
+regenerate a placeholder, delete the file first. Once every image is real,
+delete `scripts/gen-placeholders.mjs` and the `sharp` devDependency.
