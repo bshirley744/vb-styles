@@ -1,69 +1,151 @@
 import Image from "next/image";
+import Link from "next/link";
+import { home, portfolio, site } from "@/content";
+import Container from "@/components/Container";
+import SectionHeading from "@/components/SectionHeading";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <>
+      {/* ── Hero ─────────────────────────────────────────── */}
+      <section className="relative flex min-h-[78vh] items-end sm:min-h-[86vh]">
         <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+          src={home.hero.image.src}
+          alt={home.hero.image.alt}
+          fill
+          sizes="100vw"
           priority
+          className="object-cover"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+        {/* Two scrims: one anchors the type to the left, one lifts it off the floor. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/70 via-ink/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-transparent" />
+        <Container className="relative pb-16 sm:pb-24">
+          <p className="eyebrow text-bone/85">{home.hero.eyebrow}</p>
+          <h1 className="mt-5 max-w-3xl font-display text-4xl leading-[1.08] font-light text-balance text-bone sm:text-6xl md:text-7xl">
+            {home.hero.heading}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-6 max-w-md text-base leading-relaxed text-bone/85">
+            {home.hero.sub}
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={home.hero.cta.href}
+            className="mt-10 inline-block border border-bone px-8 py-3.5 text-xs uppercase tracking-[0.18em] text-bone transition-colors hover:bg-bone hover:text-ink"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+            {home.hero.cta.label}
+          </Link>
+        </Container>
+      </section>
+
+      {/* ── Intro / about ────────────────────────────────── */}
+      <section className="py-24 sm:py-32">
+        <Container>
+          <div className="grid items-center gap-12 md:grid-cols-2 md:gap-20">
+            <div className="relative aspect-4/5 overflow-hidden bg-sand md:order-last">
+              <Image
+                src={home.intro.portrait.src}
+                alt={home.intro.portrait.alt}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div>
+              <SectionHeading
+                eyebrow={home.intro.eyebrow}
+                heading={home.intro.heading}
+              />
+              <div className="mt-8 space-y-5">
+                {home.intro.body.map((paragraph) => (
+                  <p
+                    key={paragraph.slice(0, 24)}
+                    className="text-base leading-relaxed text-muted"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Category teasers ─────────────────────────────── */}
+      <section className="border-y border-line bg-mist py-24 sm:py-32">
+        <Container>
+          <SectionHeading heading={home.categoriesHeading} align="center" />
+          <ul className="mt-16 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+            {portfolio.categories.map((category) => (
+              <li key={category.slug}>
+                <Link href={`/portfolio#${category.slug}`} className="group">
+                  <div className="relative aspect-3/4 overflow-hidden bg-bone">
+                    <Image
+                      src={category.images[0].src}
+                      alt={category.images[0].alt}
+                      fill
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                    />
+                  </div>
+                  <h3 className="mt-5 font-display text-2xl transition-colors group-hover:text-accent">
+                    {category.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                    {category.blurb}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      {/* ── Testimonial ──────────────────────────────────── */}
+      <section className="py-24 sm:py-32">
+        <Container>
+          <figure className="mx-auto max-w-3xl text-center">
+            <blockquote className="font-display text-2xl leading-snug font-light text-balance italic sm:text-3xl md:text-4xl">
+              &ldquo;{home.testimonial.quote}&rdquo;
+            </blockquote>
+            <figcaption className="mt-8 text-xs uppercase tracking-[0.18em] text-muted">
+              {home.testimonial.attribution}
+            </figcaption>
+          </figure>
+        </Container>
+      </section>
+
+      {/* ── Inquire ──────────────────────────────────────── */}
+      <section id="inquire" className="border-t border-line pt-24 sm:pt-32">
+        <Container>
+          <div className="mx-auto max-w-xl text-center">
+            <SectionHeading
+              eyebrow="Inquire"
+              heading={home.cta.heading}
+              intro={home.cta.body}
+              align="center"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <a
+              href={`mailto:${site.email}?subject=${encodeURIComponent(
+                "Styling inquiry",
+              )}`}
+              className="mt-10 inline-block bg-ink px-10 py-4 text-xs uppercase tracking-[0.18em] text-bone transition-opacity hover:opacity-85"
+            >
+              {home.cta.label}
+            </a>
+            <p className="mt-6 text-sm text-muted">
+              or find me on{" "}
+              <a
+                href={site.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent underline underline-offset-4"
+              >
+                Instagram
+              </a>
+            </p>
+          </div>
+        </Container>
+      </section>
+    </>
   );
 }

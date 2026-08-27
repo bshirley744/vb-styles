@@ -1,26 +1,58 @@
 @import "tailwindcss";
 
+/* ── Brand tokens ────────────────────────────────────────────
+   Change these six values to re-skin the entire site.
+   ───────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bone: #faf8f5; /* page background */
+  --ink: #1c1a17; /* primary text */
+  --muted: #6f675d; /* secondary text */
+  --line: #e2dcd3; /* hairlines and borders */
+  --accent: #4d7288; /* slate blue — eyebrows, links, small accents */
+  --sand: #f1ece5; /* warm alternate section background */
+  --mist: #e7eff4; /* light blue alternate section background */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bone: var(--bone);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-sand: var(--sand);
+  --color-mist: var(--mist);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  /* offset for the fixed header when jumping to #anchors */
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Small uppercase label used above headings throughout the site. */
+.eyebrow {
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

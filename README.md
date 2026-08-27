@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VB Styles
 
-## Getting Started
+Three-page site for VB Styles — landing, services, portfolio. Built with
+Next.js and Tailwind, deployed on Vercel.
 
-First, run the development server:
+## Editing the site
+
+**Almost everything lives in [`src/content.ts`](src/content.ts)** — the studio
+name, every heading and paragraph, the service packages, the portfolio
+categories, and the captions. Change it there and the site updates. You should
+not need to touch anything in `src/app` or `src/components` for a copy change.
+
+### Swapping in real photos
+
+Drop files into `public/images/` using the same filenames that `content.ts`
+refers to, and they replace the placeholders — no code change needed.
+
+| Slot            | Path                              | Best size   |
+| --------------- | --------------------------------- | ----------- |
+| Hero            | `public/images/hero.jpg`          | 2400 × 1500 |
+| About portrait  | `public/images/portrait.jpg`      | 1000 × 1250 |
+| Portfolio grid  | `public/images/portfolio/*.jpg`   | 1000 × 1250 |
+
+Portfolio images are portrait (4:5). Keep each file under ~500KB — Next resizes
+and serves modern formats automatically, but it can only work with what it's given.
+
+To add or remove images from a category, edit that category's `images` array in
+`content.ts`. The grid reflows on its own.
+
+### Brand colours
+
+Six CSS variables at the top of [`src/app/globals.css`](src/app/globals.css)
+control the whole palette — warm neutrals with a slate-blue accent. Change them
+there and every page follows.
+
+## Running it locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploying
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Pushing to `main` triggers a Vercel deploy. Pull requests get their own preview
+URL before anything reaches the live site.
 
-## Learn More
+## Placeholder assets
 
-To learn more about Next.js, take a look at the following resources:
+The current hero is a stock photo from Unsplash (by Huy Nguyen), used as a
+stand-in. Everything else in `public/images/` is a generated grey placeholder.
+Replace them all before launch.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`npm run placeholders` regenerates any placeholder that is *missing* — it will
+not overwrite a real photo. Pass `--force` only if you genuinely want to wipe
+what's there. Once every image is real, delete `scripts/gen-placeholders.mjs`
+and the `sharp` devDependency.
